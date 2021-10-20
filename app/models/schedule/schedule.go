@@ -16,7 +16,6 @@ type Tabler interface {
 	TableName() string
 }
 
-// TableName 会将 User 的表名重写为 `profiles`
 func (Schedule) TableName() string {
 	return "schedule"
 }

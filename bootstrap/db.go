@@ -1,6 +1,7 @@
 package bootstrap
 
 import (
+	"lichmaker/girlfriend-gift-1/app/models/pool"
 	"lichmaker/girlfriend-gift-1/app/models/schedule"
 
 	"lichmaker/girlfriend-gift-1/pkg/config"
@@ -29,5 +30,6 @@ func SetupDB() {
 func migration(db *gorm.DB) {
 	db.AutoMigrate(
 		&schedule.Schedule{},
+		&pool.Pool{},
 	)
 }
