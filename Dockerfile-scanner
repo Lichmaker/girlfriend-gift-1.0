@@ -1,0 +1,19 @@
+FROM golang:1.16.5-alpine3.13 as goBuilder
+RUN apk add --no-cache bash
+RUN mkdir -p /scanner-build
+WORKDIR /scanner-build
+COPY . .
+RUN /bin/bash -c 'if [ ! -e ".env" ]; then  echo "env file not found" ;  exit 1  ; else echo "check env file success" ; exit 0; fi '
+WORKDIR /scanner-build/app/console/scanner
+RUN go build -o girlfriend-gift-scanner
+
+FROM alpine:latest
+RUN apk add tzdata
+RUN ln -sf /usr/share/zoneinfo/Asia/Shanghai /etc/localtime
+RUN echo 'Asia/Shanghai' > /etc/timezone
+RUN mkdir -p /scnner-app
+RUN mkdir -p /albumDir
+WORKDIR /scnner-app
+COPY --from=goBuilder /scanner-build/app/console/scanner/girlfriend-gift-scanner .
+COPY --from=goBuilder /scanner-build/.env .
+ENTRYPOINT ["./girlfriend-gift-scanner"]
