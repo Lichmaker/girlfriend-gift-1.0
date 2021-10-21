@@ -16,3 +16,8 @@ docker run --rm --name="girlfriend-gift-scanner" -v 本地需要上传图片的�
 docker build -f ./Dockerfile-schedule-maker -t girlfriend-gift-schedule-maker .
 docker run --rm --name="girlfriend-gift-schedule-maker" girlfriend-gift-schedule-maker
 ```
+
+## mod_time_update 运行
+```
+go run app/console/mod_time_update/main.go 本地绝对路径
+```
