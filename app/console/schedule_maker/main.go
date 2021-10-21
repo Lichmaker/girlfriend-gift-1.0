@@ -12,6 +12,7 @@ import (
 type result struct {
 	Md5      string
 	Oss_path string
+	Mod_date string
 }
 
 func main() {
@@ -26,7 +27,7 @@ func main() {
 	var md5 string
 	var result result
 	for i := 0; i < 10; i++ {
-		sql := "SELECT md5, oss_path FROM pool ORDER BY rand() LIMIT 1"
+		sql := "SELECT md5, oss_path, mod_date FROM pool ORDER BY rand() LIMIT 1"
 		model.DB.Raw(sql).Scan(&result)
 		
 		md5 = result.Md5
@@ -41,6 +42,7 @@ func main() {
 	model.Md5 = result.Md5
 	model.Date = dateString
 	model.Path = result.Oss_path
+	model.ModDate = result.Mod_date
 	err := model.Create()
 	if err != nil {
 		fmt.Printf("发生错误:%s",err)

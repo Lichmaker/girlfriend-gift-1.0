@@ -10,6 +10,7 @@ type Schedule struct {
 	Md5  string `gorm:"column:md5;type:varchar(64);index"`
 	Date string `gorm:"column:date;type:date;index"`
 	Path string `gorm:"column:path;type:varchar(128);"`
+	ModDate string `gorm:"column:mod_date;type:date;"`
 }
 
 type Tabler interface {
