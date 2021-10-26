@@ -25,7 +25,7 @@ func main() {
 
 	// 优先找所有往年同一天的
 	var queryData []result
-	dateArray := getDateArray()
+	dateArray := getDateArray(time.Unix(timestamp, 0).Format("01-02"))
 	for _, date := range dateArray {
 		var queryTmp []result
 		sql := "SELECT md5, oss_path, mod_date FROM pool WHERE mod_date = ?"
@@ -57,9 +57,9 @@ func main() {
 	}
 }
 
-func getDateArray() []string {
+func getDateArray(md string) []string {
 	var data []string
-	date := "1990-" + time.Now().Local().Format("01-02")
+	date := "1990-"+md
 	// 直接简单粗暴从1990年起拿100年的日期
 	for i := 0; i < 100; i++ {
 		parse, _ := time.Parse("2006-01-02", date)
