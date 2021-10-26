@@ -1,3 +1,5 @@
+https://www.wuguozhang.com/archives/114/
+
 ## server 启动
 ```
 docker build -f ./Dockerfile-server -t girlfriend-gift-server .
