@@ -2,6 +2,7 @@ package oss_helper
 
 import (
 	"fmt"
+	"io"
 	"lichmaker/girlfriend-gift-1/pkg/config"
 	"strings"
 
@@ -60,4 +61,37 @@ func Upload(localPath string, ossFileName string) (string, error) {
 func GetUrl(bucketKey string, ttl int64) string {
 	str, _ := bucketClient.SignURL(bucketKey, oss.HTTPGet, ttl)
 	return str
+}
+
+func ListFiles(prefix string) []string {
+	lsRes, err := bucketClient.ListObjectsV2(oss.Prefix(prefix))
+	if err != nil {
+		fmt.Printf("获取文件列表失败：%s\n", err)
+		return nil
+	}
+	result := []string{}
+
+	for _, v := range lsRes.Objects {
+		// val := strings.TrimPrefix(v.Key, prefix+"/")
+		// if len(val) > 0 {
+		// 	result = append(result, val)
+		// }
+		result = append(result, v.Key)
+	}
+	return result
+}
+
+func DownloadFile(bucketKey string) []byte {
+	body, err := bucketClient.GetObject(bucketKey)
+	if err != nil {
+		fmt.Printf("下载文件失败：%s\n", err)
+		return nil
+	}
+	defer body.Close()
+	data, err := io.ReadAll(body)
+	if err != nil {
+		fmt.Printf("读取文件内容失败：%s\n", err)
+		return nil
+	}
+	return data
 }

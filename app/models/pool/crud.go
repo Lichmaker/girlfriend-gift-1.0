@@ -21,6 +21,12 @@ func QueryMd5NotIn(md5Array []string) []string {
 	return notInMd5
 }
 
+func CheckMd5Exists(md5Str string) bool {
+	var query Pool
+	model.DB.Where("md5 = ?", md5Str).First(&query)
+	return query.ID > 0
+}
+
 func Create(md5 string, localPath string, ossPath string, modDate string) error {
 	var poolModel Pool
 	var err error
